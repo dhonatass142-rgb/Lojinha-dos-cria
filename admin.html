@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHON_IMPORTS - Painel Administrativo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="body-painel">
+
+    <div class="app-layout">
+        <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
+
+        <aside id="sidebar-menu">
+            <div class="sidebar-header-top">
+                <div class="logo-area"><h1>DHON_IMPORTS</h1></div>
+                <button class="close-menu-btn" onclick="toggleMenu()">✕</button>
+            </div>
+            
+            <nav class="menu-nav">
+                <a href="painel.html" class="menu-item">🏠 Início</a>
+                <a href="produtos.html" class="menu-item">📦 Produtos</a>
+                <a href="admin.html" class="menu-item active">⚙️ Painel Admin</a>
+                <a href="perfil.html" class="menu-item">👤 Meu Perfil</a>
+            </nav>
+        </aside>
+
+        <main>
+            <header class="main-header">
+                <h2>Painel Administrativo</h2>
+            </header>
+
+            <div id="admin-bloqueado" style="display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4); padding: 20px; border-radius: 12px; text-align: center;">
+                <h3 style="color: #f87171; margin-bottom: 10px;">🔒 Acesso Restrito</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Apenas o Administrador pode acessar esta área.</p>
+                <button onclick="window.location.href='index.html'" style="padding: 10px 20px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Ir para o Login</button>
+            </div>
+
+            <div id="admin-conteudo">
+                <section class="section-block" style="background: rgba(15, 23, 42, 0.85); padding: 20px; border-radius: 14px; border: 1px solid var(--border-color); margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 15px; font-size: 1rem; color: #60a5fa;">➕ Cadastrar Novo Produto</h3>
+                    
+                    <form id="form-add-produto" onsubmit="cadastrarProduto(event)" style="display: flex; flex-direction: column; gap: 12px;">
+                        <input type="text" id="prod-nome" placeholder="Nome do Produto" required style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 0.85rem;">
+                        <input type="text" id="prod-preco" placeholder="Preço (Ex: 299,90)" required style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 0.85rem;">
+                        <input type="file" id="prod-foto" accept="image/*" required style="width: 100%; color: #fff; font-size: 0.8rem;">
+                        <button type="submit" class="btn-primary-banner" style="margin-top: 10px; width: 100%; cursor: pointer;">Cadastrar Produto</button>
+                    </form>
+                </section>
+
+                <section class="section-block" style="background: rgba(15, 23, 42, 0.85); padding: 20px; border-radius: 14px; border: 1px solid var(--border-color);">
+                    <h3 style="margin-bottom: 15px; font-size: 1rem; color: #60a5fa;">📦 Gerenciar Produtos Existentes</h3>
+                    <div id="lista-admin-produtos" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const usuarioLogado = obterUsuarioLogado();
+            if (!usuarioLogado || !usuarioLogado.admin) {
+                document.getElementById('admin-bloqueado').style.display = 'block';
+                document.getElementById('admin-conteudo').style.display = 'none';
+            } else {
+                document.getElementById('admin-bloqueado').style.display = 'none';
+                document.getElementById('admin-conteudo').style.display = 'block';
+                renderizarProdutosAdmin();
+            }
+        });
+
+        function renderizarProdutosAdmin() {
+            const container = document.getElementById('lista-admin-produtos');
+            if (!container) return;
+            const produtos = obterProdutos();
+            container.innerHTML = '';
+
+            produtos.forEach((prod) => {
+                const item = document.createElement('div');
+                item.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem;";
+                item.innerHTML = `
+                    <div><strong>${prod.nome}</strong> - <span style="color: var(--success);">R$ ${prod.preco}</span></div>
+                    <button onclick="excluirProduto(${prod.id})" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); padding: 5px 10px; border-radius: 6px; cursor: pointer;">Excluir</button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function excluirProduto(id) {
+            if (confirm('Deseja excluir este produto?')) {
+                let produtos = obterProdutos().filter(p => p.id !== id);
+                salvarProdutos(produtos);
+                renderizarProdutosAdmin();
+                alert('Produto excluído!');
+            }
+        }
+    </script>
+</body>
+</html>

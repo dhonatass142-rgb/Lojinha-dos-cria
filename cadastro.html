@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHON_IMPORTS - Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="body-login">
+
+    <div class="login-card">
+        <span class="sub-brand">NOVA CONTA</span>
+        <h2>Crie seu cadastro</h2>
+        
+        <form onsubmit="event.preventDefault(); fazerCadastro();">
+            <div class="input-group">
+                <span class="input-icon">👤</span>
+                <input type="text" id="cadastro-nome" placeholder="Seu nome completo" required>
+            </div>
+
+            <div class="input-group">
+                <span class="input-icon">📧</span>
+                <input type="email" id="cadastro-email" placeholder="Seu e-mail" required>
+            </div>
+            
+            <div class="input-group">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="cadastro-senha" placeholder="Crie uma senha" required>
+            </div>
+
+            <button type="submit" class="btn-primary">CADASTRAR</button>
+        </form>
+
+        <div class="divider"><span>OU</span></div>
+        
+        <button type="button" class="btn-secondary" onclick="window.location.href='index.html'">
+            ↩️ VOLTAR PARA O LOGIN
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

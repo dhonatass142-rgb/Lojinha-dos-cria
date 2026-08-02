@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHON_IMPORTS - Carrinho</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-layout">
+        <aside>
+            <div class="logo-area">
+                <h1>DHON_IMPORTS</h1>
+                <p style="font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px;">ATITUDE • ESTILO • QUALIDADE</p>
+            </div>
+
+            <nav class="menu-nav">
+                <a href="loja.html" class="menu-item">🏠 Início</a>
+                <a href="carrinho.html" class="menu-item active">🛒 Carrinho (<span id="contador-carrinho">0</span>)</a>
+                <a href="perfil.html" class="menu-item">👤 Perfil</a>
+            </nav>
+        </aside>
+
+        <main>
+            <h2 class="section-title">Seu Carrinho de Compras</h2>
+            
+            <div id="itens-carrinho-container">
+                </div>
+
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <h3>Total: <span id="carrinho-total" style="color: var(--success);">R$ 0,00</span></h3>
+                <button class="btn-primary" onclick="finalizarCompraWhatsApp()" style="width: auto; padding: 12px 25px;">Finalizar Pedido via WhatsApp</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHON_IMPORTS - Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="body-login">
+
+    <form class="login-card" onsubmit="fazerLogin(event)">
+        <span class="sub-brand">DHON_IMPORTS</span>
+        <h2>Acesse sua conta</h2>
+
+        <div class="input-group">
+            <span class="input-icon">📧</span>
+            <input type="email" id="login-email" placeholder="Seu e-mail" required>
+        </div>
+
+        <div class="input-group">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="login-senha" placeholder="Sua senha" required>
+        </div>
+
+        <div class="form-options">
+            <label class="remember-me">
+                <input type="checkbox"> Lembrar de mim
+            </label>
+            <a href="#" class="forgot-link">Esqueceu a senha?</a>
+        </div>
+
+        <button type="submit" class="btn-primary">Entrar</button>
+
+        <div class="divider"><span>OU</span></div>
+
+        <button type="button" class="btn-secondary" onclick="window.location.href='cadastro.html'">Cadastrar / Criar Conta</button>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>

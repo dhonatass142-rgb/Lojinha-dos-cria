@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHON_IMPORTS - Loja Oficial</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="body-painel">
+
+    <div class="app-layout">
+        <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
+
+        <aside id="sidebar-menu">
+            <div class="sidebar-header-top">
+                <div class="logo-area">
+                    <h1>DHON_IMPORTS</h1>
+                </div>
+                <button class="close-menu-btn" onclick="toggleMenu()">✕</button>
+            </div>
+            
+            <nav class="menu-nav">
+                <a href="painel.html" class="menu-item">🏠 Início</a>
+                <a href="produtos.html" class="menu-item active">📦 Catálogo & Loja</a>
+                <a href="perfil.html" class="menu-item">👤 Meu Perfil</a>
+            </nav>
+        </aside>
+
+        <main>
+            <header class="main-header">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="input-busca" placeholder="Buscar produtos na loja..." onkeyup="filtrarProdutos()">
+                </div>
+                
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="abrirCarrinho()" title="Ver Carrinho">
+                        🛒 <span class="notif-dot" id="cart-counter">0</span>
+                    </button>
+                    <div class="user-avatar-mini" onclick="window.location.href='perfil.html'" title="Gerenciar Perfil">
+                        👤
+                    </div>
+                </div>
+            </header>
+
+            <section class="section-block" style="background: rgba(15, 23, 42, 0.85); padding: 20px; border-radius: 14px; border: 1px solid var(--border-color); margin-bottom: 30px; box-sizing: border-box;">
+                <h3 style="margin-bottom: 15px; font-size: 1rem;">➕ Painel Administrativo: Cadastrar Produto</h3>
+                
+                <form id="form-add-produto" onsubmit="cadastrarProduto(event)" style="display: flex; flex-direction: column; gap: 12px; width: 100%; box-sizing: border-box;">
+                    
+                    <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                        <input type="text" id="prod-nome" placeholder="Nome do Produto" required style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 0.85rem; box-sizing: border-box;">
+                        <input type="text" id="prod-preco" placeholder="Preço (Ex: 199,90)" required style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 0.85rem; box-sizing: border-box;">
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                        <input type="file" id="prod-foto" accept="image/*" required style="width: 100%; color: #fff; font-size: 0.8rem; box-sizing: border-box;">
+                        <button type="submit" class="btn-primary-banner" style="width: 100%; padding: 12px; font-size: 0.85rem; box-sizing: border-box; cursor: pointer;">Adicionar Produto</button>
+                    </div>
+
+                </form>
+            </section>
+
+            <section class="section-block">
+                <h3>🛍️ Nossos Produtos</h3>
+                <div id="vitrine-produtos" class="produtos-grid" style="margin-top: 15px;"></div>
+            </section>
+        </main>
+    </div>
+
+    <div id="modal-carrinho" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 15px; box-sizing: border-box;">
+        <div style="background: #0f172a; border: 1px solid var(--border-color); width: 100%; max-width: 450px; border-radius: 16px; padding: 20px; max-height: 90vh; overflow-y: auto; box-sizing: border-box;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="font-size: 1.1rem;">🛒 Seu Carrinho de Compras</h3>
+                <button onclick="fecharCarrinho()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;">✕</button>
+            </div>
+
+            <div id="lista-itens-carrinho" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; max-height: 200px; overflow-y: auto;"></div>
+
+            <div style="border-top: 1px solid var(--border-color); padding-top: 10px; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
+                    <span>Total:</span>
+                    <span id="carrinho-total" style="color: var(--success);">R$ 0,00</span>
+                </div>
+            </div>
+
+            <h4 style="font-size: 0.9rem; margin-bottom: 10px; color: #60a5fa;">📍 Dados para Entrega e Contato</h4>
+            <div id="form-checkout" style="display: flex; flex-direction: column; gap: 10px;">
+                <input type="text" id="cliente-nome" placeholder="Seu Nome Completo" required style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 0.8rem; box-sizing: border-box;">
+                <input type="text" id="cliente-endereco" placeholder="Endereço (Rua, Número, Bairro)" required style="width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 0.8rem; box-sizing: border-box;">
+                <select id="cliente-pagamento" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 0.8rem; box-sizing: border-box;">
+                    <option value="Pix">💳 Pix (Aprovação imediata)</option>
+                    <option value="Cartao de Credito">💳 Cartão de Crédito</option>
+                    <option value="Dinheiro na Entrega">💵 Dinheiro na Entrega</option>
+                </select>
+                <button onclick="finalizarPedidoWhatsApp()" style="width: 100%; padding: 12px; background: #25d366; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; margin-top: 5px;">
+                    ✅ Enviar Pedido via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

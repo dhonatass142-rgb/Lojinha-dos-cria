@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHON_IMPORTS - Início</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="body-painel">
+
+    <div class="app-layout">
+        <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
+
+        <aside id="sidebar-menu">
+            <div class="sidebar-header-top">
+                <div class="logo-area"><h1>DHON_IMPORTS</h1></div>
+                <button class="close-menu-btn" onclick="toggleMenu()">✕</button>
+            </div>
+            
+            <nav class="menu-nav">
+                <a href="painel.html" class="menu-item active">🏠 Início</a>
+                <a href="produtos.html" class="menu-item">📦 Produtos</a>
+                <a href="admin.html" class="menu-item">⚙️ Painel Admin</a>
+                <a href="perfil.html" class="menu-item">👤 Perfil</a>
+            </nav>
+        </aside>
+
+        <main>
+            <header class="main-header">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Buscar produtos...">
+                </div>
+                
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="window.location.href='produtos.html'">🛒 <span class="notif-dot" id="header-cart-counter">0</span></button>
+                    <div class="user-avatar-mini" onclick="window.location.href='perfil.html'" title="Gerenciar Perfil">👤</div>
+                </div>
+            </header>
+
+            <section class="store-banner">
+                <div class="banner-badge">BEM-VINDO À STORE</div>
+                <h2>DHON_IMPORTS</h2>
+                <p class="banner-sub">Sua escolha, nossa qualidade.</p>
+                <div class="banner-buttons">
+                    <button class="btn-primary-banner" onclick="window.location.href='produtos.html'">Ver Produtos ➔</button>
+                </div>
+            </section>
+
+            <section class="section-block">
+                <div class="section-header-flex">
+                    <h3>Produtos em Destaque</h3>
+                    <a href="produtos.html" class="ver-todos-link">Ver todos ➔</a>
+                </div>
+                <div id="destaques-grid" class="produtos-grid"></div>
+            </section>
+
+            <div class="footer-profile-card">
+                <div class="fp-info" onclick="window.location.href='perfil.html'" style="cursor: pointer;">
+                    <div class="fp-avatar">👤</div>
+                    <div>
+                        <strong id="nome-usuario-logado">DHON_IMPORTS</strong>
+                        <p>Cliente (Editar)</p>
+                    </div>
+                </div>
+                <button class="btn-fp" onclick="window.location.href='perfil.html'">Meu Perfil</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
