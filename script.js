@@ -1,4 +1,4 @@
-// --- BANCO DE DADOS LOCAL (GitHub Pages - Versão Definitiva Completa) ---
+// --- BANCO DE DADOS LOCAL (DHON_IMPORTS V3) ---
 
 function obterUsuarios() {
     let usuariosSalvos = JSON.parse(localStorage.getItem('dhon_usuarios')) || [];
@@ -34,17 +34,17 @@ function salvarCarrinho(carrinho) {
 }
 
 
-// --- GESTÃO DE PRODUTOS (COM CATEGORIAS E CHAVE V3) ---
+// --- GESTÃO DE PRODUTOS ---
 
 function obterProdutos() {
     let produtos = JSON.parse(localStorage.getItem('dhon_produtos_v3'));
 
     if (!produtos || produtos.length === 0) {
         produtos = [
-            { id: 1, nome: "Fone Bluetooth Pro", preco: "199,90", categoria: "eletronicos", foto: "" },
-            { id: 2, nome: "Smartwatch Ultra", preco: "299,90", categoria: "eletronicos", foto: "" },
-            { id: 3, nome: "Perfume Importado 100ml", preco: "350,00", categoria: "perfumaria", foto: "" },
-            { id: 4, nome: "Tênis esportivo Importado", preco: "450,00", categoria: "calcados", foto: "" }
+            { id: 1, nome: "Smartwatch Premium", preco: "199,90", categoria: "eletronicos", foto: "" },
+            { id: 2, nome: "Fone Bluetooth Pro", preco: "149,90", categoria: "eletronicos", foto: "" },
+            { id: 3, nome: "Tênis Nike Air Force", preco: "299,90", categoria: "calcados", foto: "" },
+            { id: 4, nome: "Perfume 212 VIP Black", preco: "180,00", categoria: "perfumaria", foto: "" }
         ];
         localStorage.setItem('dhon_produtos_v3', JSON.stringify(produtos));
     }
@@ -116,7 +116,6 @@ function fazerCadastro(event) {
     alert('Cadastro realizado com sucesso! Faça o login agora.');
     const formCadastro = document.getElementById('form-cadastro');
     if (formCadastro) formCadastro.reset();
-    
     window.location.href = 'painel.html'; 
 }
 
@@ -127,14 +126,7 @@ function fazerLogout() {
 }
 
 
-// --- MENU LATERAL (SIDEBAR) ---
-function toggleMenu() {
-    const sidebar = document.getElementById('sidebar-menu');
-    if (sidebar) sidebar.classList.toggle('menu-ativo');
-}
-
-
-// --- INICIALIZAÇÃO DE TELA E EVENTOS ---
+// --- INICIALIZAÇÃO ---
 document.addEventListener('DOMContentLoaded', () => {
     obterUsuarios();
     obterProdutos();
@@ -172,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     criarModalCarrinhoNaTela();
-
     renderizarProdutosVitrine();
     atualizarContadoresCarrinho();
     verificarPermissaoAdmin();
@@ -186,21 +177,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// --- CÁLCULO DE PRAZO DE ENTREGA ---
+// --- PRAZO DE ENTREGA ---
 function calcularPrazoEntrega(idProduto) {
     const dias = (idProduto % 5) + 3; 
     return `${dias} dias úteis`;
 }
 
 
-// --- BUSCA E FILTROS DE CATEGORIA ---
+// --- FILTROS E BUSCA ---
 
 function filtrarPorCategoria(categoria) {
     renderizarProdutosVitrine('', categoria);
 }
 
 function renderizarProdutosVitrine(termoBusca = '', categoriaFiltro = 'todos') {
-    const vitrine = document.getElementById('vitrine-produtos') || document.getElementById('lista-produtos');
+    const vitrine = document.getElementById('vitrine-produtos');
     if (!vitrine) return;
 
     let produtos = obterProdutos();
@@ -226,7 +217,7 @@ function renderizarProdutosVitrine(termoBusca = '', categoriaFiltro = 'todos') {
     produtos.forEach(prod => {
         const card = document.createElement('div');
         card.className = 'produto-card';
-        let imagemHTML = prod.foto ? `<img src="${prod.foto}" style="width:100%; height:100px; object-fit:cover; border-radius:8px; margin-bottom:8px;">` : `<div class="prod-img-placeholder">📦</div>`;
+        let imagemHTML = prod.foto ? `<img src="${prod.foto}" style="width:100%; height:110px; object-fit:cover; border-radius:8px; margin-bottom:8px;">` : `<div style="width:100%; height:110px; background:rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:center; border-radius:8px; margin-bottom:8px; font-size:1.5rem;">📦</div>`;
         let botaoAdminHTML = isAdmin ? `<button onclick="excluirProduto(${prod.id})" style="width:100%; padding:5px; background:#ef4444; color:#fff; border:none; border-radius:6px; font-size:0.7rem; cursor:pointer; margin-top:4px;">Excluir</button>` : '';
 
         const prazoEntrega = calcularPrazoEntrega(prod.id);
@@ -234,10 +225,10 @@ function renderizarProdutosVitrine(termoBusca = '', categoriaFiltro = 'todos') {
         card.innerHTML = `
             ${imagemHTML}
             <h4>${prod.nome}</h4>
-            <div class="prod-rating">⭐⭐⭐⭐⭐</div>
+            <div style="font-size: 0.7rem; color: #fbbf24; margin-bottom: 6px;">⭐⭐⭐⭐⭐</div>
             <div class="preco" style="margin-bottom: 4px;">R$ ${prod.preco}</div>
-            <div style="font-size: 0.7rem; color: #38bdf8; margin-bottom: 8px;">🚚 Entrega estimada: <strong>${prazoEntrega}</strong></div>
-            <button onclick="adicionarAoCarrinhoPorId(${prod.id})" style="width:100%; padding:6px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer;">Comprar / Carrinho</button>
+            <div style="font-size: 0.65rem; color: #38bdf8; margin-bottom: 8px;">🚚 Entrega: <strong>${prazoEntrega}</strong></div>
+            <button onclick="adicionarAoCarrinhoPorId(${prod.id})" style="width:100%; padding:8px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:bold;">Comprar</button>
             ${botaoAdminHTML}
         `;
         vitrine.appendChild(card);
@@ -245,29 +236,24 @@ function renderizarProdutosVitrine(termoBusca = '', categoriaFiltro = 'todos') {
 }
 
 
-// --- GESTÃO DE PERFIL E ADMIN ---
+// --- PERFIL E ADMIN ---
 
 async function salvarPerfil(event) {
     if (event) event.preventDefault();
     let usuarioLogado = obterUsuarioLogado();
     
     if (!usuarioLogado) {
-        alert('Sessão expirada. Por favor, faça login novamente.');
+        alert('Sessão expirada. Faça login novamente.');
         window.location.href = 'painel.html';
         return;
     }
 
     const inputNome = document.getElementById('input-perfil-nome');
-    const senhaAtualEl = document.getElementById('input-senha-atual');
     const novaSenhaEl = document.getElementById('input-senha-nova');
     const inputFoto = document.getElementById('input-perfil-foto');
 
     if (inputNome && inputNome.value.trim()) usuarioLogado.nome = inputNome.value.trim();
-
-    const novaSenha = novaSenhaEl ? novaSenhaEl.value : '';
-    if (novaSenha) {
-        usuarioLogado.senha = novaSenha;
-    }
+    if (novaSenhaEl && novaSenhaEl.value) usuarioLogado.senha = novaSenhaEl.value;
 
     if (inputFoto && inputFoto.files && inputFoto.files[0]) {
         try {
@@ -297,7 +283,7 @@ async function salvarPerfil(event) {
             });
             usuarioLogado.foto = base64Comprimida;
         } catch (erro) {
-            console.error("Erro ao compactar a foto:", erro);
+            console.error("Erro ao compactar foto:", erro);
         }
     }
 
@@ -322,24 +308,18 @@ function cadastrarProduto(event) {
     if (event) event.preventDefault();
     const usuarioLogado = obterUsuarioLogado();
     if (!usuarioLogado || !usuarioLogado.admin) {
-        alert('Acesso negado! Apenas o administrador pode cadastrar produtos.');
+        alert('Acesso negado!');
         return;
     }
 
     const nome = document.getElementById('prod-nome').value.trim();
     const preco = document.getElementById('prod-preco').value.trim();
-    const categoria = document.getElementById('prod-categoria') ? document.getElementById('prod-categoria').value : 'geral';
+    const categoria = document.getElementById('prod-categoria').value;
     const inputFoto = document.getElementById('prod-foto');
 
     const finalizarCadastro = (urlFoto = "") => {
         let produtos = obterProdutos();
-        const novoProd = {
-            id: Date.now(),
-            nome: nome,
-            preco: preco,
-            categoria: categoria,
-            foto: urlFoto
-        };
+        const novoProd = { id: Date.now(), nome, preco, categoria, foto: urlFoto };
         produtos.push(novoProd);
         salvarProdutos(produtos);
         
@@ -350,9 +330,7 @@ function cadastrarProduto(event) {
 
     if (inputFoto && inputFoto.files && inputFoto.files[0]) {
         const reader = new FileReader();
-        reader.onload = function(e) {
-            finalizarCadastro(e.target.result);
-        };
+        reader.onload = function(e) { finalizarCadastro(e.target.result); };
         reader.readAsDataURL(inputFoto.files[0]);
     } else {
         finalizarCadastro("");
@@ -361,17 +339,12 @@ function cadastrarProduto(event) {
 
 function excluirProduto(id) {
     const usuarioLogado = obterUsuarioLogado();
-    if (!usuarioLogado || !usuarioLogado.admin) {
-        alert('Acesso negado!');
-        return;
-    }
+    if (!usuarioLogado || !usuarioLogado.admin) return;
 
-    if (confirm('Tem certeza que deseja excluir este produto?')) {
+    if (confirm('Deseja excluir este produto?')) {
         let produtos = obterProdutos();
         produtos = produtos.filter(p => p.id !== id);
         salvarProdutos(produtos);
-        
-        alert('Produto excluído com sucesso!');
         renderizarProdutosVitrine();
     }
 }
@@ -387,8 +360,7 @@ function adicionarAoCarrinhoPorId(id) {
     let carrinho = obterCarrinho();
     carrinho.push(produto);
     salvarCarrinho(carrinho);
-    alert(`"${produto.nome}" foi adicionado ao carrinho!`);
-    renderizarCarrinhoItens();
+    alert(`"${produto.nome}" adicionado ao carrinho!`);
 }
 
 function renderizarCarrinhoItens() {
@@ -399,7 +371,7 @@ function renderizarCarrinhoItens() {
     lista.innerHTML = '';
 
     if (carrinho.length === 0) {
-        lista.innerHTML = `<p style="color:#aaa; text-align:center; font-size:0.85rem; padding: 15px;">Seu carrinho está vazio.</p>`;
+        lista.innerHTML = `<p style="color:#aaa; text-align:center; font-size:0.85rem; padding: 15px;">Carrinho vazio.</p>`;
         atualizarTotalCarrinho(0);
         return;
     }
@@ -491,7 +463,7 @@ function finalizarPedidoWhatsApp(event) {
     const carrinho = obterCarrinho();
 
     if (carrinho.length === 0) {
-        alert('Seu carrinho está vazio! Adicione produtos antes de finalizar o pedido.');
+        alert('Seu carrinho está vazio!');
         return;
     }
 
