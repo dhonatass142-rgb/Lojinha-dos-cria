@@ -1,22 +1,4 @@
-// --- CONFIGURAÇÃO DO FIREBASE (Projeto: lojinha-dos-cria) ---
-// Substitua os campos abaixo com as credenciais reais obtidas no seu painel do Firebase
-const firebaseConfig = {
-    apiKey: "SUA_API_KEY_DO_FIREBASE", 
-    authDomain: "lojinha-dos-cria.firebaseapp.com",
-    projectId: "lojinha-dos-cria",
-    storageBucket: "lojinha-dos-cria.appspot.com",
-    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-    appId: "SEU_APP_ID"
-};
-
-// Inicializa o Firebase de forma segura
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
-const db = firebase.firestore();
-
-
-// --- BANCO DE DADOS LOCAL (Usuários e Carrinho Temporário) ---
+// --- BANCO DE DADOS LOCAL (LocalStorage para o GitHub) ---
 
 function obterUsuarios() {
     let usuariosSalvos = JSON.parse(localStorage.getItem('dhon_usuarios')) || [];
@@ -49,6 +31,27 @@ function obterCarrinho() {
 function salvarCarrinho(carrinho) {
     localStorage.setItem('dhon_carrinho', JSON.stringify(carrinho));
     atualizarContadoresCarrinho();
+}
+
+
+// --- GESTÃO DE PRODUTOS (Local) ---
+
+function obterProdutos() {
+    let produtos = JSON.parse(localStorage.getItem('dhon_produtos'));
+    if (!produtos || produtos.length === 0) {
+        produtos = [
+            { id: 1, nome: "Fone Bluetooth Pro", preco: "199,90", foto: "" },
+            { id: 2, nome: "Smartwatch Ultra", preco: "299,90", foto: "" },
+            { id: 3, nome: "Perfume Importado 100ml", preco: "350,00", foto: "" },
+            { id: 4, nome: "Tênis esportivo Importado", preco: "450,00", foto: "" }
+        ];
+        localStorage.setItem('dhon_produtos', JSON.stringify(produtos));
+    }
+    return produtos;
+}
+
+function salvarProdutos(produtos) {
+    localStorage.setItem('dhon_produtos', JSON.stringify(produtos));
 }
 
 
@@ -121,6 +124,7 @@ function toggleMenu() {
 // --- INICIALIZAÇÃO DE TELA E PERFIL ---
 document.addEventListener('DOMContentLoaded', () => {
     obterUsuarios();
+    obterProdutos();
     const usuarioLogado = obterUsuarioLogado();
     
     const inputEmail = document.getElementById('input-perfil-email');
@@ -249,7 +253,7 @@ async function salvarPerfil(event) {
 }
 
 
-// --- GESTÃO DE PRODUTOS VIA FIREBASE (Nuvem em Tempo Real) ---
+// --- GESTÃO DE PRODUTOS (LOCAL) ---
 
 function verificarPermissaoAdmin() {
     const usuarioLogado = obterUsuarioLogado();
@@ -259,34 +263,7 @@ function verificarPermissaoAdmin() {
     }
 }
 
-async function obterProdutosDaNuvem() {
-    try {
-        const snapshot = await db.collection("produtos").get();
-        let produtos = [];
-        snapshot.forEach(doc => {
-            produtos.push({ idDoc: doc.id, ...doc.data() });
-        });
-        
-        if (produtos.length === 0) {
-            const produtosIniciais = [
-                { id: 1, nome: "Fone Bluetooth Pro", preco: "199,90", foto: "" },
-                { id: 2, nome: "Smartwatch Ultra", preco: "299,90", foto: "" },
-                { id: 3, nome: "Perfume Importado 100ml", preco: "350,00", foto: "" },
-                { id: 4, nome: "Tênis esportivo Importado", preco: "450,00", foto: "" }
-            ];
-            for (let p of produtosIniciais) {
-                await db.collection("produtos").add(p);
-            }
-            return obterProdutosDaNuvem();
-        }
-        return produtos;
-    } catch (erro) {
-        console.error("Erro ao buscar produtos da nuvem:", erro);
-        return [];
-    }
-}
-
-async function cadastrarProduto(event) {
+function cadastrarProduto(event) {
     if (event) event.preventDefault();
     const usuarioLogado = obterUsuarioLogado();
     if (!usuarioLogado || !usuarioLogado.admin) {
@@ -298,58 +275,57 @@ async function cadastrarProduto(event) {
     const preco = document.getElementById('prod-preco').value.trim();
     const inputFoto = document.getElementById('prod-foto');
 
-    const salvarNoBancoNuvem = async (urlFoto = "") => {
-        try {
-            await db.collection("produtos").add({
-                id: Date.now(),
-                nome: nome,
-                preco: preco,
-                foto: urlFoto
-            });
-            alert('Produto cadastrado com sucesso na nuvem para todos os usuários!');
-            document.getElementById('form-add-produto').reset();
-            renderizarProdutosVitrine();
-            renderizarDestaques();
-        } catch (erro) {
-            alert('Erro ao salvar produto: ' + erro.message);
-        }
+    const finalizarCadastro = (urlFoto = "") => {
+        let produtos = obterProdutos();
+        const novoProd = {
+            id: Date.now(),
+            nome: nome,
+            preco: preco,
+            foto: urlFoto
+        };
+        produtos.push(novoProd);
+        salvarProdutos(produtos);
+        
+        alert('Produto cadastrado com sucesso!');
+        document.getElementById('form-add-produto').reset();
+        renderizarProdutosVitrine();
+        renderizarDestaques();
     };
 
     if (inputFoto && inputFoto.files && inputFoto.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            salvarNoBancoNuvem(e.target.result);
+            finalizarCadastro(e.target.result);
         };
         reader.readAsDataURL(inputFoto.files[0]);
     } else {
-        salvarNoBancoNuvem("");
+        finalizarCadastro("");
     }
 }
 
-async function excluirProduto(idDoc) {
+function excluirProduto(id) {
     const usuarioLogado = obterUsuarioLogado();
     if (!usuarioLogado || !usuarioLogado.admin) {
         alert('Acesso negado!');
         return;
     }
 
-    if (confirm('Tem certeza que deseja excluir este produto para todos os usuários?')) {
-        try {
-            await db.collection("produtos").doc(idDoc).delete();
-            alert('Produto excluído com sucesso!');
-            renderizarProdutosVitrine();
-            renderizarDestaques();
-        } catch (erro) {
-            alert('Erro ao excluir: ' + erro.message);
-        }
+    if (confirm('Tem certeza que deseja excluir este produto?')) {
+        let produtos = obterProdutos();
+        produtos = produtos.filter(p => p.id !== id);
+        salvarProdutos(produtos);
+        
+        alert('Produto excluído com sucesso!');
+        renderizarProdutosVitrine();
+        renderizarDestaques();
     }
 }
 
-async function renderizarProdutosVitrine() {
+function renderizarProdutosVitrine() {
     const vitrine = document.getElementById('vitrine-produtos') || document.getElementById('lista-produtos');
     if (!vitrine) return;
 
-    const produtos = await obterProdutosDaNuvem();
+    const produtos = obterProdutos();
     vitrine.innerHTML = '';
 
     const usuarioLogado = obterUsuarioLogado();
@@ -360,25 +336,25 @@ async function renderizarProdutosVitrine() {
         card.className = 'produto-card';
         let imagemHTML = prod.foto ? `<img src="${prod.foto}" style="width:100%; height:100px; object-fit:cover; border-radius:8px; margin-bottom:8px;">` : `<div class="prod-img-placeholder">📦</div>`;
 
-        let botaoAdminHTML = isAdmin ? `<button onclick="excluirProduto('${prod.idDoc}')" style="width:100%; padding:5px; background:#ef4444; color:#fff; border:none; border-radius:6px; font-size:0.7rem; cursor:pointer; margin-top:4px;">Excluir</button>` : '';
+        let botaoAdminHTML = isAdmin ? `<button onclick="excluirProduto(${prod.id})" style="width:100%; padding:5px; background:#ef4444; color:#fff; border:none; border-radius:6px; font-size:0.7rem; cursor:pointer; margin-top:4px;">Excluir</button>` : '';
 
         card.innerHTML = `
             ${imagemHTML}
             <h4>${prod.nome}</h4>
             <div class="prod-rating">⭐⭐⭐⭐⭐</div>
             <div class="preco" style="margin-bottom: 8px;">R$ ${prod.preco}</div>
-            <button onclick="adicionarAoCarrinhoPorId('${prod.idDoc}')" style="width:100%; padding:6px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer;">Comprar / Carrinho</button>
+            <button onclick="adicionarAoCarrinhoPorId(${prod.id})" style="width:100%; padding:6px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer;">Comprar / Carrinho</button>
             ${botaoAdminHTML}
         `;
         vitrine.appendChild(card);
     });
 }
 
-async function renderizarDestaques() {
+function renderizarDestaques() {
     const destaques = document.getElementById('destaques-grid');
     if (!destaques) return;
 
-    const produtos = (await obterProdutosDaNuvem()).slice(0, 4);
+    const produtos = obterProdutos().slice(0, 4);
     destaques.innerHTML = '';
 
     produtos.forEach(prod => {
@@ -390,7 +366,7 @@ async function renderizarDestaques() {
             <h4>${prod.nome}</h4>
             <div class="prod-rating">⭐⭐⭐⭐⭐</div>
             <div class="preco" style="margin-bottom: 8px;">R$ ${prod.preco}</div>
-            <button onclick="adicionarAoCarrinhoPorId('${prod.idDoc}')" style="width:100%; padding:6px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer;">Adicionar</button>
+            <button onclick="adicionarAoCarrinhoPorId(${prod.id})" style="width:100%; padding:6px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer;">Adicionar</button>
         `;
         destaques.appendChild(card);
     });
@@ -399,9 +375,9 @@ async function renderizarDestaques() {
 
 // --- CARRINHO E WHATSAPP ---
 
-async function adicionarAoCarrinhoPorId(idDoc) {
-    const produtos = await obterProdutosDaNuvem();
-    const produto = produtos.find(p => p.idDoc === idDoc);
+function adicionarAoCarrinhoPorId(id) {
+    const produtos = obterProdutos();
+    const produto = produtos.find(p => p.id === id);
     if (!produto) return;
 
     let carrinho = obterCarrinho();
