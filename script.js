@@ -44,7 +44,8 @@ function obterProdutos() {
             { id: 1, nome: "Smartwatch Premium", preco: "199,90", categoria: "eletronicos", foto: "" },
             { id: 2, nome: "Fone Bluetooth Pro", preco: "149,90", categoria: "eletronicos", foto: "" },
             { id: 3, nome: "Tênis Nike Air Force", preco: "299,90", categoria: "calcados", foto: "" },
-            { id: 4, nome: "Perfume 212 VIP Black", preco: "180,00", categoria: "perfumaria", foto: "" }
+            { id: 4, nome: "Perfume 212 VIP Black", preco: "180,00", categoria: "perfumaria", foto: "" },
+            { id: 5, nome: "Máquina Vap", preco: "150,99", categoria: "eletronicos", foto: "" }
         ];
         localStorage.setItem('dhon_produtos_v3', JSON.stringify(produtos));
     }
