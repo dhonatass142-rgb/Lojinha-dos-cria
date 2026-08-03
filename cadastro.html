@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DHON_IMPORTS - Cadastro</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Cadastro - DHON_IMPORTS</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #0b0f19; color: #f3f4f6; min-height: 100vh; padding: 25px; display: flex; justify-content: center; align-items: center; }
+        .container { max-width: 420px; width: 100%; background: #121826; padding: 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        h2 { color: #38bdf8; margin-bottom: 20px; font-size: 1.3rem; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.8rem; margin-bottom: 6px; color: #94a3b8; }
+        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: #0b0f19; color: #fff; font-size: 0.9rem; }
+        button { width: 100%; padding: 12px; background: #16a34a; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 0.9rem; transition: 0.2s; }
+        button:hover { background: #15803d; }
+        .btn-voltar { display: block; text-align: center; background: #1e293b; margin-top: 15px; text-decoration: none; padding: 10px; border-radius: 8px; font-size: 0.85rem; color: #fff; }
+        .link-footer { text-align: center; margin-top: 15px; font-size: 0.85rem; color: #94a3b8; }
+        .link-footer a { color: #38bdf8; text-decoration: none; }
+    </style>
 </head>
-<body class="body-login">
+<body>
 
-    <div class="login-card">
-        <span class="sub-brand">NOVA CONTA</span>
-        <h2>Crie seu cadastro</h2>
+    <div class="container">
+        <h2>Criar Conta - DHON</h2>
         
-        <form onsubmit="event.preventDefault(); fazerCadastro();">
-            <div class="input-group">
-                <span class="input-icon">👤</span>
-                <input type="text" id="cadastro-nome" placeholder="Seu nome completo" required>
+        <form id="form-cadastro" onsubmit="fazerCadastro(event)">
+            <div class="form-group">
+                <label>Nome Completo:</label>
+                <input type="text" id="cadastro-nome" required placeholder="Seu nome">
             </div>
-
-            <div class="input-group">
-                <span class="input-icon">📧</span>
-                <input type="email" id="cadastro-email" placeholder="Seu e-mail" required>
+            <div class="form-group">
+                <label>E-mail:</label>
+                <input type="email" id="cadastro-email" required placeholder="seu@email.com">
             </div>
-            
-            <div class="input-group">
-                <span class="input-icon">🔒</span>
-                <input type="password" id="cadastro-senha" placeholder="Crie uma senha" required>
+            <div class="form-group">
+                <label>Senha:</label>
+                <input type="password" id="cadastro-senha" required placeholder="Crie uma senha">
             </div>
-
-            <button type="submit" class="btn-primary">CADASTRAR</button>
+            <button type="submit">Cadastrar</button>
         </form>
 
-        <div class="divider"><span>OU</span></div>
-        
-        <button type="button" class="btn-secondary" onclick="window.location.href='index.html'">
-            ↩️ VOLTAR PARA O LOGIN
-        </button>
+        <div class="link-footer">
+            Já tem uma conta? <a href="login.html">Faça login</a>
+        </div>
+
+        <a href="index.html" class="btn-voltar">← Voltar para a Loja</a>
     </div>
 
     <script src="script.js"></script>
