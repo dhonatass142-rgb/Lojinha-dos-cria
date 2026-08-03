@@ -1,4 +1,4 @@
-// --- BANCO DE DADOS LOCAL (GitHub Pages - Versão Estável) ---
+// --- BANCO DE DADOS LOCAL (GitHub Pages - Versão Definitiva de Produtos V3) ---
 
 function obterUsuarios() {
     let usuariosSalvos = JSON.parse(localStorage.getItem('dhon_usuarios')) || [];
@@ -34,29 +34,24 @@ function salvarCarrinho(carrinho) {
 }
 
 
-// --- GESTÃO DE PRODUTOS ---
+// --- GESTÃO DE PRODUTOS (CHAVE V3 - FORÇA OS NOVOS PRODUTOS SEM CACHE ANTIGO) ---
 
 function obterProdutos() {
-    const VERSAO_PRODUTOS = "2"; 
-    const versaoSalva = localStorage.getItem('dhon_versao_produtos');
+    let produtos = JSON.parse(localStorage.getItem('dhon_produtos_v3'));
 
-    let produtos = JSON.parse(localStorage.getItem('dhon_produtos'));
-
-    if (!produtos || produtos.length === 0 || versaoSalva !== VERSAO_PRODUTOS) {
+    if (!produtos || produtos.length === 0) {
         produtos = [
-            { id: 1, nome: "Fone Bluetooth Pro", preco: "199,90", foto: "" },
-            { id: 2, nome: "Smartwatch Ultra", preco: "299,90", foto: "" },
-            { id: 3, nome: "Perfume Importado 100ml", preco: "350,00", foto: "" },
-            { id: 4, nome: "Tênis esportivo Importado", preco: "450,00", foto: "" }
+            // EDITE ABAIXO OS SEUS PRODUTOS OFICIAIS:
+            { id: 1, nome: "Seu Produto 1", preco: "50,00", foto: "" },
+            { id: 2, nome: "Seu Produto 2", preco: "100,00", foto: "" }
         ];
-        localStorage.setItem('dhon_produtos', JSON.stringify(produtos));
-        localStorage.setItem('dhon_versao_produtos', VERSAO_PRODUTOS);
+        localStorage.setItem('dhon_produtos_v3', JSON.stringify(produtos));
     }
     return produtos;
 }
 
 function salvarProdutos(produtos) {
-    localStorage.setItem('dhon_produtos', JSON.stringify(produtos));
+    localStorage.setItem('dhon_produtos_v3', JSON.stringify(produtos));
 }
 
 
@@ -554,7 +549,6 @@ function finalizarPedidoWhatsApp(event) {
 
     const numeroWhatsApp = "5561996210117";
 
-    // Limpa APENAS o carrinho e atualiza o contador, sem afetar o usuário logado
     localStorage.removeItem('dhon_carrinho');
     atualizarContadoresCarrinho();
     fecharCarrinhoModal();
