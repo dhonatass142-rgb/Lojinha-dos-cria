@@ -121,17 +121,3 @@ button, .btn-primary {
 button:hover, .btn-primary:hover {
     background: #1d4ed8;
 }
-
-.btn-danger {
-    background: #ef4444;
-}
-.btn-danger:hover {
-    background: #dc2626;
-}
-
-.btn-success {
-    background: #10b981;
-}
-.btn-success:hover {
-    background: #059669;
-}
