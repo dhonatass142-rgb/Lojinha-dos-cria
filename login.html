@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DHON_IMPORTS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background-color: #0b0f19; color: #f3f4f6; min-height: 100vh; padding: 25px; display: flex; justify-content: center; align-items: center; }
+        .container { max-width: 420px; width: 100%; background: #121826; padding: 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        h2 { color: #38bdf8; margin-bottom: 20px; font-size: 1.3rem; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.8rem; margin-bottom: 6px; color: #94a3b8; }
+        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: #0b0f19; color: #fff; font-size: 0.9rem; }
+        button { width: 100%; padding: 12px; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 0.9rem; }
+        .btn-voltar { display: block; text-align: center; background: #1e293b; margin-top: 15px; text-decoration: none; padding: 10px; border-radius: 8px; font-size: 0.85rem; color: #fff; }
+        .link-footer { text-align: center; margin-top: 15px; font-size: 0.85rem; color: #94a3b8; }
+        .link-footer a { color: #38bdf8; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Acessar DHON_IMPORTS</h2>
+        
+        <form id="form-login" onsubmit="fazerLogin(event)">
+            <div class="form-group">
+                <label>E-mail:</label>
+                <input type="email" id="login-email" required placeholder="admin@dhon.com">
+            </div>
+            <div class="form-group">
+                <label>Senha:</label>
+                <input type="password" id="login-senha" required placeholder="Sua senha">
+            </div>
+            <button type="submit">Entrar</button>
+        </form>
+
+        <div class="link-footer">
+            Não tem uma conta? <a href="cadastro.html">Cadastre-se</a>
+        </div>
+
+        <a href="index.html" class="btn-voltar">← Voltar para a Loja</a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
