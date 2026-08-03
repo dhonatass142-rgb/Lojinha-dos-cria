@@ -1,4 +1,4 @@
-// --- BANCO DE DADOS LOCAL (LocalStorage para o GitHub) ---
+// --- BANCO DE DADOS LOCAL (Versão Atualizada para GitHub Pages) ---
 
 function obterUsuarios() {
     let usuariosSalvos = JSON.parse(localStorage.getItem('dhon_usuarios')) || [];
@@ -34,11 +34,17 @@ function salvarCarrinho(carrinho) {
 }
 
 
-// --- GESTÃO DE PRODUTOS (Local) ---
+// --- GESTÃO DE PRODUTOS COM AUTO-ATUALIZAÇÃO (Fácil de editar no GitHub) ---
 
 function obterProdutos() {
+    // Mude este número (ex: "1" para "2", depois "3") sempre que alterar os produtos abaixo 
+    // para que eles atualizem automaticamente no site de todo mundo!
+    const VERSAO_PRODUTOS = "1"; 
+    const versaoSalva = localStorage.getItem('dhon_versao_produtos');
+
     let produtos = JSON.parse(localStorage.getItem('dhon_produtos'));
-    if (!produtos || produtos.length === 0) {
+
+    if (!produtos || produtos.length === 0 || versaoSalva !== VERSAO_PRODUTOS) {
         produtos = [
             { id: 1, nome: "Fone Bluetooth Pro", preco: "199,90", foto: "" },
             { id: 2, nome: "Smartwatch Ultra", preco: "299,90", foto: "" },
@@ -46,6 +52,7 @@ function obterProdutos() {
             { id: 4, nome: "Tênis esportivo Importado", preco: "450,00", foto: "" }
         ];
         localStorage.setItem('dhon_produtos', JSON.stringify(produtos));
+        localStorage.setItem('dhon_versao_produtos', VERSAO_PRODUTOS);
     }
     return produtos;
 }
