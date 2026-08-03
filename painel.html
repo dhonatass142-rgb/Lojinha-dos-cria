@@ -3,71 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DHON_IMPORTS - Início</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Painel - Dhon Store</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #0b0f19; color: #f3f4f6; min-height: 100vh; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #121826; padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
+        h2 { color: #38bdf8; margin-bottom: 15px; font-size: 1.2rem; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.85rem; margin-bottom: 5px; color: #94a3b8; }
+        input, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: #0b0f19; color: #fff; font-size: 0.9rem; }
+        button { width: 100%; padding: 10px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .btn-voltar { display: inline-block; text-align: center; background: #334155; margin-bottom: 20px; text-decoration: none; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; color: #fff; }
+        .tab-btns { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btns button { flex: 1; background: #1e293b; }
+        .tab-btns button.ativo { background: #2563eb; }
+    </style>
 </head>
-<body class="body-painel">
+<body>
 
-    <div class="app-layout">
-        <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
-
-        <aside id="sidebar-menu">
-            <div class="sidebar-header-top">
-                <div class="logo-area"><h1>DHON_IMPORTS</h1></div>
-                <button class="close-menu-btn" onclick="toggleMenu()">✕</button>
+    <div class="container">
+        <a href="index.html" class="btn-voltar">← Voltar para a Loja</a>
+        
+        <div id="secao-nao-logado">
+            <div class="tab-btns">
+                <button type="button" id="btn-tab-login" class="ativo" onclick="alternarAbaAuth('login')">Entrar</button>
+                <button type="button" id="btn-tab-cadastro" onclick="alternarAbaAuth('cadastro')">Criar Conta</button>
             </div>
-            
-            <nav class="menu-nav">
-                <a href="painel.html" class="menu-item active">🏠 Início</a>
-                <a href="produtos.html" class="menu-item">📦 Produtos</a>
-                <a href="admin.html" class="menu-item">⚙️ Painel Admin</a>
-                <a href="perfil.html" class="menu-item">👤 Perfil</a>
-            </nav>
-        </aside>
 
-        <main>
-            <header class="main-header">
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" placeholder="Buscar produtos...">
+            <form id="form-login" onsubmit="fazerLogin(event)">
+                <h2>Acessar Conta</h2>
+                <div class="form-group">
+                    <label>E-mail:</label>
+                    <input type="email" id="login-email" required placeholder="ex: admin@dhon.com">
                 </div>
-                
-                <div class="header-actions">
-                    <button class="icon-btn" onclick="window.location.href='produtos.html'">🛒 <span class="notif-dot" id="header-cart-counter">0</span></button>
-                    <div class="user-avatar-mini" onclick="window.location.href='perfil.html'" title="Gerenciar Perfil">👤</div>
+                <div class="form-group">
+                    <label>Senha:</label>
+                    <input type="password" id="login-senha" required placeholder="Sua senha">
                 </div>
-            </header>
+                <button type="submit">Entrar</button>
+            </form>
 
-            <section class="store-banner">
-                <div class="banner-badge">BEM-VINDO À STORE</div>
-                <h2>DHON_IMPORTS</h2>
-                <p class="banner-sub">Sua escolha, nossa qualidade.</p>
-                <div class="banner-buttons">
-                    <button class="btn-primary-banner" onclick="window.location.href='produtos.html'">Ver Produtos ➔</button>
+            <form id="form-cadastro" onsubmit="fazerCadastro(event)" style="display: none;">
+                <h2>Criar Nova Conta</h2>
+                <div class="form-group">
+                    <label>Nome Completo:</label>
+                    <input type="text" id="cadastro-nome" required placeholder="Seu nome">
                 </div>
-            </section>
-
-            <section class="section-block">
-                <div class="section-header-flex">
-                    <h3>Produtos em Destaque</h3>
-                    <a href="produtos.html" class="ver-todos-link">Ver todos ➔</a>
+                <div class="form-group">
+                    <label>E-mail:</label>
+                    <input type="email" id="cadastro-email" required placeholder="seu@email.com">
                 </div>
-                <div id="destaques-grid" class="produtos-grid"></div>
-            </section>
+                <div class="form-group">
+                    <label>Senha:</label>
+                    <input type="password" id="cadastro-senha" required placeholder="Crie uma senha">
+                </div>
+                <button type="submit" style="background: #16a34a;">Cadastrar</button>
+            </form>
+        </div>
 
-            <div class="footer-profile-card">
-                <div class="fp-info" onclick="window.location.href='perfil.html'" style="cursor: pointer;">
-                    <div class="fp-avatar">👤</div>
-                    <div>
-                        <strong id="nome-usuario-logado">DHON_IMPORTS</strong>
-                        <p>Cliente (Editar)</p>
+        <div id="secao-logado" style="display: none;">
+            <h2 id="nome-usuario-logado">Meu Perfil</h2>
+            <form onsubmit="salvarPerfil(event)">
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input type="text" id="input-perfil-nome">
+                </div>
+                <div class="form-group">
+                    <label>E-mail:</label>
+                    <input type="email" id="input-perfil-email" readonly style="opacity: 0.7;">
+                </div>
+                <div class="form-group">
+                    <label>Nova Senha (opcional):</label>
+                    <input type="password" id="input-senha-nova" placeholder="Deixe em branco para não alterar">
+                </div>
+                <div class="form-group">
+                    <label>Foto de Perfil:</label>
+                    <input type="file" id="input-perfil-foto" accept="image/*">
+                </div>
+                <div id="perfil-avatar-preview" style="width: 70px; height: 70px; border-radius: 50%; background: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 1.5rem;">👤</div>
+                <button type="submit">Salvar Alterações</button>
+            </form>
+
+            <div id="painel-admin-container" style="display: none; margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                <h2 style="color: #ef4444;">Painel do Administrador</h2>
+                <form id="form-add-produto" onsubmit="cadastrarProduto(event)">
+                    <div class="form-group">
+                        <label>Nome do Produto:</label>
+                        <input type="text" id="prod-nome" required>
                     </div>
-                </div>
-                <button class="btn-fp" onclick="window.location.href='perfil.html'">Meu Perfil</button>
+                    <div class="form-group">
+                        <label>Preço (ex: 150,00):</label>
+                        <input type="text" id="prod-preco" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria:</label>
+                        <select id="prod-categoria">
+                            <option value="eletronicos">Eletrônicos</option>
+                            <option value="perfumaria">Perfumaria</option>
+                            <option value="calcados">Calçados</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Foto do Produto:</label>
+                        <input type="file" id="prod-foto" accept="image/*">
+                    </div>
+                    <button type="submit" style="background: #16a34a;">Cadastrar Produto</button>
+                </form>
             </div>
-        </main>
+
+            <button onclick="fazerLogout()" style="background: #ef4444; margin-top: 20px;">Sair da Conta (Logout)</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
+    <script>
+        function alternarAbaAuth(tipo) {
+            const formLogin = document.getElementById('form-login');
+            const formCadastro = document.getElementById('form-cadastro');
+            const btnLogin = document.getElementById('btn-tab-login');
+            const btnCadastro = document.getElementById('btn-tab-cadastro');
+
+            if (tipo === 'login') {
+                formLogin.style.display = 'block';
+                formCadastro.style.display = 'none';
+                btnLogin.classList.add('ativo');
+                btnCadastro.classList.remove('ativo');
+            } else {
+                formLogin.style.display = 'none';
+                formCadastro.style.display = 'block';
+                btnLogin.classList.remove('ativo');
+                btnCadastro.classList.add('ativo');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const usuario = obterUsuarioLogado();
+            if (usuario) {
+                document.getElementById('secao-nao-logado').style.display = 'none';
+                document.getElementById('secao-logado').style.display = 'block';
+            } else {
+                document.getElementById('secao-nao-logado').style.display = 'block';
+                document.getElementById('secao-logado').style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
