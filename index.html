@@ -3,38 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DHON_IMPORTS - Login</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Dhon - Loja Oficial</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: #121826;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #38bdf8;
+            text-decoration: none;
+        }
+        .header-acoes {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .btn-carrinho-topo {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .menu-hamburguer {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        main {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .banner {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .banner h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .banner p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .secao-titulo {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-left: 3px solid #38bdf8;
+            padding-left: 8px;
+        }
+        .vitrine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .produto-card {
+            background: #121826;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .produto-card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        .prod-rating {
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+        }
+        .preco {
+            font-weight: bold;
+            color: #38bdf8;
+            font-size: 1rem;
+        }
+        .prod-img-placeholder {
+            width: 100%;
+            height: 100px;
+            background: rgba(255,255,255,0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 1.5rem;
+        }
+        /* Sidebar Menu */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100%;
+            background: #121826;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            transition: right 0.3s ease;
+            z-index: 2000;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border-left: 1px solid rgba(255,255,255,0.1);
+        }
+        .sidebar.menu-ativo {
+            right: 0;
+        }
+        .sidebar a {
+            color: #f3f4f6;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.03);
+            font-size: 0.9rem;
+            display: block;
+        }
+        .sidebar a:hover {
+            background: #2563eb;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #121826;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+    </style>
 </head>
-<body class="body-login">
+<body>
 
-    <form class="login-card" onsubmit="fazerLogin(event)">
-        <span class="sub-brand">DHON_IMPORTS</span>
-        <h2>Acesse sua conta</h2>
+    <header>
+        <a href="index.html" class="logo">Dhon Store</a>
+        <div class="header-acoes">
+            <button class="btn-carrinho-topo" onclick="abrirCarrinhoModal()">
+                🛒 <span id="contador-carrinho">0</span>
+            </button>
+            <button class="menu-hamburguer" onclick="toggleMenu()">☰</button>
+        </div>
+    </header>
 
-        <div class="input-group">
-            <span class="input-icon">📧</span>
-            <input type="email" id="login-email" placeholder="Seu e-mail" required>
+    <div id="sidebar-menu" class="sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+            <h3 style="font-size: 1rem; color: #fff;">Menu</h3>
+            <button onclick="toggleMenu()" style="background:none; border:none; color:#fff; font-size:1.2rem; cursor:pointer;">✕</button>
+        </div>
+        <a href="index.html">🏠 Início / Loja</a>
+        <a href="login.html">🔐 Entrar / Login</a>
+        <a href="cadastro.html">📝 Criar Conta</a>
+        <a href="painel.html">⚙️ Painel do Usuário / Admin</a>
+    </div>
+
+    <main>
+        <div class="banner">
+            <h1>Bem-vindo à Dhon Store</h1>
+            <p>Os melhores produtos com entrega rápida e pagamento direto via WhatsApp.</p>
         </div>
 
-        <div class="input-group">
-            <span class="input-icon">🔒</span>
-            <input type="password" id="login-senha" placeholder="Sua senha" required>
+        <div style="margin-bottom: 15px;">
+            <input type="text" id="input-busca-produto" placeholder="🔍 O que você está procurando?" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: #121826; color: #fff; font-size: 0.9rem;">
         </div>
 
-        <div class="form-options">
-            <label class="remember-me">
-                <input type="checkbox"> Lembrar de mim
-            </label>
-            <a href="#" class="forgot-link">Esqueceu a senha?</a>
+        <div style="display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 5px;">
+            <button onclick="filtrarPorCategoria('todos')" style="padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.85rem;">Todos</button>
+            <button onclick="filtrarPorCategoria('eletronicos')" style="padding: 8px 16px; background: #1e293b; color: #fff; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.85rem;">Eletrônicos</button>
+            <button onclick="filtrarPorCategoria('perfumaria')" style="padding: 8px 16px; background: #1e293b; color: #fff; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.85rem;">Perfumaria</button>
+            <button onclick="filtrarPorCategoria('calcados')" style="padding: 8px 16px; background: #1e293b; color: #fff; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.85rem;">Calçados</button>
         </div>
 
-        <button type="submit" class="btn-primary">Entrar</button>
+        <h3 class="secao-titulo">Produtos Disponíveis</h3>
+        
+        <div id="vitrine-produtos" class="vitrine-grid">
+            </div>
+    </main>
 
-        <div class="divider"><span>OU</span></div>
-
-        <button type="button" class="btn-secondary" onclick="window.location.href='cadastro.html'">Cadastrar / Criar Conta</button>
-    </form>
+    <footer>
+        <p>&copy; 2026 Dhon Store - Todos os direitos reservados.</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
