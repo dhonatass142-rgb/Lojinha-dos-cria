@@ -1,4 +1,4 @@
-// --- BANCO DE DADOS LOCAL (Versão Atualizada para GitHub Pages) ---
+// --- BANCO DE DADOS LOCAL (Versão Atualizada e Forçada para GitHub) ---
 
 function obterUsuarios() {
     let usuariosSalvos = JSON.parse(localStorage.getItem('dhon_usuarios')) || [];
@@ -34,16 +34,17 @@ function salvarCarrinho(carrinho) {
 }
 
 
-// --- GESTÃO DE PRODUTOS COM AUTO-ATUALIZAÇÃO (Fácil de editar no GitHub) ---
+// --- GESTÃO DE PRODUTOS (COM RESET FORÇADO PARA ATUALIZAR NO GITHUB) ---
 
 function obterProdutos() {
-    // Mude este número (ex: "1" para "2", depois "3") sempre que alterar os produtos abaixo 
-    // para que eles atualizem automaticamente no site de todo mundo!
-    const VERSAO_PRODUTOS = "1"; 
+    // IMPORTANTE: Mude este número toda vez que alterar os produtos abaixo 
+    // para que o site ignore a memória antiga do celular e atualize sozinho!
+    const VERSAO_PRODUTOS = "2"; 
     const versaoSalva = localStorage.getItem('dhon_versao_produtos');
 
     let produtos = JSON.parse(localStorage.getItem('dhon_produtos'));
 
+    // Se mudou a versão ou o banco está vazio, limpa e força os novos produtos oficiais
     if (!produtos || produtos.length === 0 || versaoSalva !== VERSAO_PRODUTOS) {
         produtos = [
             { id: 1, nome: "Fone Bluetooth Pro", preco: "199,90", foto: "" },
