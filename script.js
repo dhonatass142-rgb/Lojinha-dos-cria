@@ -1,4 +1,4 @@
-// --- BANCO DE DADOS LOCAL (GitHub Pages - Com Busca, Categorias e Prazo de Entrega) ---
+// --- BANCO DE DADOS LOCAL (GitHub Pages - Versão Definitiva Completa) ---
 
 function obterUsuarios() {
     let usuariosSalvos = JSON.parse(localStorage.getItem('dhon_usuarios')) || [];
@@ -34,7 +34,7 @@ function salvarCarrinho(carrinho) {
 }
 
 
-// --- GESTÃO DE PRODUTOS ---
+// --- GESTÃO DE PRODUTOS (COM CATEGORIAS E CHAVE V3) ---
 
 function obterProdutos() {
     let produtos = JSON.parse(localStorage.getItem('dhon_produtos_v3'));
@@ -196,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- CÁLCULO DE PRAZO DE ENTREGA ---
 function calcularPrazoEntrega(idProduto) {
-    // Gera um prazo consistente entre 3 e 7 dias úteis com base no ID do produto
     const dias = (idProduto % 5) + 3; 
     return `${dias} dias úteis`;
 }
@@ -238,7 +237,6 @@ function renderizarProdutosVitrine(termoBusca = '', categoriaFiltro = 'todos') {
         let imagemHTML = prod.foto ? `<img src="${prod.foto}" style="width:100%; height:100px; object-fit:cover; border-radius:8px; margin-bottom:8px;">` : `<div class="prod-img-placeholder">📦</div>`;
         let botaoAdminHTML = isAdmin ? `<button onclick="excluirProduto(${prod.id})" style="width:100%; padding:5px; background:#ef4444; color:#fff; border:none; border-radius:6px; font-size:0.7rem; cursor:pointer; margin-top:4px;">Excluir</button>` : '';
 
-        // Chamada da função que exibe o prazo de entrega calculado
         const prazoEntrega = calcularPrazoEntrega(prod.id);
 
         card.innerHTML = `
