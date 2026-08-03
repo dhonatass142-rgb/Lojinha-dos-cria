@@ -3,221 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhon Store</title>
+    <title>DHON_IMPORTS - Loja Oficial</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-        body {
-            background-color: #0b0f19;
-            color: #f3f4f6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        header {
-            background: #121826;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .logo {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #38bdf8;
-            text-decoration: none;
-        }
-        .header-acoes {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .btn-carrinho-topo {
-            background: #2563eb;
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .menu-hamburguer {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        main {
-            flex: 1;
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .banner {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .banner h1 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-        .banner p {
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-        .secao-titulo {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            font-weight: bold;
-            border-left: 3px solid #38bdf8;
-            padding-left: 8px;
-        }
-        .vitrine-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .produto-card {
-            background: #121826;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .produto-card h4 {
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-            color: #fff;
-        }
-        .prod-rating {
-            font-size: 0.75rem;
-            margin-bottom: 8px;
-        }
-        .preco {
-            font-weight: bold;
-            color: #38bdf8;
-            font-size: 1rem;
-        }
-        .prod-img-placeholder {
-            width: 100%;
-            height: 100px;
-            background: rgba(255,255,255,0.03);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 1.5rem;
-        }
-        /* Sidebar Menu */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -280px;
-            width: 280px;
-            height: 100%;
-            background: #121826;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
-            transition: right 0.3s ease;
-            z-index: 2000;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            border-left: 1px solid rgba(255,255,255,0.1);
-        }
-        .sidebar.menu-ativo {
-            right: 0;
-        }
-        .sidebar a {
-            color: #f3f4f6;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 6px;
-            background: rgba(255,255,255,0.03);
-            font-size: 0.9rem;
-            display: block;
-        }
-        .sidebar a:hover {
-            background: #2563eb;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #121826;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.8rem;
-            color: #64748b;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #0b0f19; color: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* Topo */
+        header { background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.3rem; font-weight: bold; color: #38bdf8; text-decoration: none; letter-spacing: 1px; }
+        .busca-topo { flex: 1; max-width: 400px; margin: 0 30px; position: relative; }
+        .busca-topo input { width: 100%; padding: 10px 15px 10px 35px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: #121826; color: #fff; font-size: 0.85rem; }
+        .busca-topo span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 0.9rem; color: #888; }
+        .acoes-topo { display: flex; align-items: center; gap: 15px; }
+        .btn-icone { background: #121826; border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; font-size: 0.9rem; }
+        .badge-cart { position: absolute; top: -5px; right: -5px; background: #2563eb; color: #fff; font-size: 0.65rem; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+        /* Layout Principal */
+        .layout-principal { display: flex; flex: 1; }
+        
+        /* Menu Lateral Esquerdo */
+        aside { width: 240px; background: #0f172a; border-right: 1px solid rgba(255,255,255,0.08); padding: 20px 15px; display: flex; flex-direction: column; gap: 8px; }
+        aside a, .menu-link { display: flex; align-items: center; gap: 10px; color: #94a3b8; text-decoration: none; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; transition: 0.2s; }
+        aside a:hover, aside a.ativo { background: #2563eb; color: #fff; }
+
+        /* Conteúdo Central */
+        main { flex: 1; padding: 25px; max-width: 1000px; margin: 0 auto; }
+        
+        /* Banner Principal */
+        .banner { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 12px; padding: 35px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .banner-texto h1 { font-size: 1.8rem; color: #fff; margin-bottom: 8px; }
+        .banner-texto h1 span { color: #38bdf8; }
+        .banner-texto p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 15px; }
+        .btns-banner { display: flex; gap: 10px; }
+        .btn-azul { background: #2563eb; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85rem; text-decoration: none; display: inline-block; }
+        .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85rem; text-decoration: none; display: inline-block; }
+
+        /* Categorias Populares */
+        .secao-titulo { font-size: 1rem; font-weight: bold; margin-bottom: 15px; color: #fff; }
+        .categorias-grid { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 25px; }
+        .cat-card { background: #121826; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 18px; text-align: center; cursor: pointer; min-width: 100px; transition: 0.2s; }
+        .cat-card:hover { border-color: #2563eb; }
+        .cat-card span { font-size: 0.75rem; color: #94a3b8; display: block; margin-top: 5px; }
+
+        /* Vitrine de Produtos */
+        .vitrine-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .produto-card { background: #121826; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between; }
+        .produto-card h4 { font-size: 0.9rem; margin-bottom: 4px; color: #fff; }
+        .preco { font-weight: bold; color: #38bdf8; font-size: 0.95rem; }
+
+        /* Responsivo para celular */
+        @media (max-width: 768px) {
+            aside { display: none; }
+            .busca-topo { display: none; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo">Dhon Store</a>
-        <div class="header-acoes">
-            <button class="btn-carrinho-topo" onclick="abrirCarrinhoModal()">
-                🛒 <span id="contador-carrinho">0</span>
-            </button>
-            <button class="menu-hamburguer" onclick="toggleMenu()">☰</button>
+        <a href="index.html" class="logo">DHON_IMPORTS</a>
+        <div class="busca-topo">
+            <span>🔍</span>
+            <input type="text" id="input-busca-produto" placeholder="Buscar produtos...">
+        </div>
+        <div class="acoes-topo">
+            <button class="btn-icone" onclick="abrirCarrinhoModal()">🛒<span id="contador-carrinho" class="badge-cart">0</span></button>
+            <a href="painel.html" class="btn-icone" style="text-decoration:none;">👤</a>
         </div>
     </header>
 
-    <div id="sidebar-menu" class="sidebar">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-            <h3 style="font-size: 1rem; color: #fff;">Menu</h3>
-            <button onclick="toggleMenu()" style="background:none; border:none; color:#fff; font-size:1.2rem; cursor:pointer;">✕</button>
-        </div>
-        <a href="index.html">🏠 Início / Loja</a>
-        <a href="painel.html">⚙️ Painel / Login / Admin</a>
+    <div class="layout-principal">
+        <aside>
+            <a href="index.html" class="ativo">🏠 Início</a>
+            <a href="painel.html">📦 Meus Pedidos</a>
+            <a href="painel.html">❤️ Favoritos</a>
+            <a href="painel.html">🛒 Carrinho</a>
+            <a href="painel.html">⚙️ Configurações / Perfil</a>
+        </aside>
+
+        <main>
+            <div class="banner">
+                <div class="banner-texto">
+                    <h1>DHON_IMPORTS <span>Qualidade</span></h1>
+                    <p>Sua escolha, nossa qualidade. Os melhores produtos importados com os melhores preços do mercado.</p>
+                    <div class="btns-banner">
+                        <a href="#vitrine-produtos" class="btn-azul">Ver Produtos</a>
+                        <a href="painel.html" class="btn-outline">Fale Conosco</a>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="secao-titulo">Categorias Populares</h3>
+            <div class="categorias-grid">
+                <div class="cat-card" onclick="filtrarPorCategoria('todos')">🎧<span>Todos</span></div>
+                <div class="cat-card" onclick="filtrarPorCategoria('eletronicos')">💻<span>Eletrônicos</span></div>
+                <div class="cat-card" onclick="filtrarPorCategoria('perfumaria')">🧴<span>Perfumaria</span></div>
+                <div class="cat-card" onclick="filtrarPorCategoria('calcados')">👟<span>Calçados</span></div>
+            </div>
+
+            <h3 class="secao-titulo" id="vitrine-produtos-titulo">Produtos em Destaque</h3>
+            
+            <div id="vitrine-produtos" class="vitrine-grid">
+                </div>
+        </main>
     </div>
 
-    <main>
-        <div class="banner">
-            <h1>Bem-vindo à Dhon Store</h1>
-            <p>Os melhores produtos com entrega rápida e pagamento direto via WhatsApp.</p>
-        </div>
-
-        <div style="margin-bottom: 15px;">
-            <input type="text" id="input-busca-produto" placeholder="🔍 O que você está procurando?" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: #121826; color: #fff; font-size: 0.9rem;">
-        </div>
-
-        <div style="display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 5px;">
-            <button onclick="filtrarPorCategoria('todos')" style="padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.85rem;">Todos</button>
-            <button onclick="filtrarPorCategoria('eletronicos')" style="padding: 8px 16px; background: #1e293b; color: #fff; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.85rem;">Eletrônicos</button>
-            <button onclick="filtrarPorCategoria('perfumaria')" style="padding: 8px 16px; background: #1e293b; color: #fff; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.85rem;">Perfumaria</button>
-            <button onclick="filtrarPorCategoria('calcados')" style="padding: 8px 16px; background: #1e293b; color: #fff; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.85rem;">Calçados</button>
-        </div>
-
-        <h3 class="secao-titulo">Produtos Disponíveis</h3>
-        
-        <div id="vitrine-produtos" class="vitrine-grid">
-            </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Dhon Store - Todos os direitos reservados.</p>
+    <footer style="text-align: center; padding: 20px; background: #0f172a; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: #64748b;">
+        &copy; 2026 DHON_IMPORTS - Todos os direitos reservados.
     </footer>
 
     <script src="script.js"></script>
