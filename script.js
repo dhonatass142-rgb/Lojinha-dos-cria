@@ -1,4 +1,4 @@
-// --- BANCO DE DADOS LOCAL (DHON_IMPORTS V3) ---
+// --- BANCO DE DADOS LOCAL (DHON_IMPORTS) ---
 
 function obterUsuarios() {
     let usuariosSalvos = JSON.parse(localStorage.getItem('dhon_usuarios')) || [];
@@ -56,7 +56,7 @@ function salvarProdutos(produtos) {
 }
 
 
-// --- AUTENTICAÇÃO ---
+// --- AUTENTICAÇÃO (LOGIN E CADASTRO) ---
 
 function fazerLogin(event) {
     if (event) event.preventDefault();
@@ -114,9 +114,7 @@ function fazerCadastro(event) {
     salvarUsuarios(usuarios);
     
     alert('Cadastro realizado com sucesso! Faça o login agora.');
-    const formCadastro = document.getElementById('form-cadastro');
-    if (formCadastro) formCadastro.reset();
-    window.location.href = 'painel.html'; 
+    window.location.href = 'login.html'; 
 }
 
 function fazerLogout() {
@@ -126,7 +124,7 @@ function fazerLogout() {
 }
 
 
-// --- INICIALIZAÇÃO ---
+// --- INICIALIZAÇÃO DE TELA ---
 document.addEventListener('DOMContentLoaded', () => {
     obterUsuarios();
     obterProdutos();
@@ -184,7 +182,7 @@ function calcularPrazoEntrega(idProduto) {
 }
 
 
-// --- FILTROS E BUSCA ---
+// --- BUSCA E FILTROS ---
 
 function filtrarPorCategoria(categoria) {
     renderizarProdutosVitrine('', categoria);
@@ -244,7 +242,7 @@ async function salvarPerfil(event) {
     
     if (!usuarioLogado) {
         alert('Sessão expirada. Faça login novamente.');
-        window.location.href = 'painel.html';
+        window.location.href = 'login.html';
         return;
     }
 
